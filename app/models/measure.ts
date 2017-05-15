@@ -15,12 +15,15 @@ export class Measure {
 
     }
 
-    play(): void {
+    play(input: number): Promise<number> {
+
         var counter = 1;
         var beats = this.beats.length;
         var tempo = this.tempo;
         var bottom = this.bottom;
         var playSound = this.playSound;
+
+        return new Promise((resolve) => {
 
         var looper = function(){  
             if (counter < (beats + 1)) {
@@ -30,13 +33,16 @@ export class Measure {
             } else {
                 console.log('Loop end');
                 //Make this point to the next measure in line
-                counter = 1;
-                return;
-            }
+                resolve(input + 1);
+                return 1;
+                
+            }   
 
             setTimeout(looper,((60/tempo) * 1000 * 4)/bottom );
         }
         looper();
+        
+     });
     }
 
     playSound(beat: number): void {
@@ -49,5 +55,6 @@ export class Measure {
         }
         
     }
+    
 
 }
