@@ -1,14 +1,16 @@
 import { MyAppPage } from './app.po';
 
-describe('my-app App', function() {
+describe('my-app App', () => {
   let page: MyAppPage;
 
   beforeEach(() => {
     page = new MyAppPage();
   });
 
-  it('should display message saying app works', () => {
+  it('should display welcome message', done => {
     page.navigateTo();
-    expect(page.getParagraphText()).toEqual('app works!');
+    page.getParagraphText()
+      .then(msg => expect(msg).toEqual('Welcome to app!!'))
+      .then(done, done.fail);
   });
 });
