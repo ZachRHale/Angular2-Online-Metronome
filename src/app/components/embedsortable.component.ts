@@ -6,6 +6,11 @@ import { Measure } from '../models/measure';
     selector: 'embedded-sortable',
     template: `
     <h4>Multi list sortable</h4>
+
+  <div>
+    <button (click)="loadMeasures()">Load Measures</button>
+    {{ measure | json }}
+  </div>
     <div class="row">
         <input type="number" #topNumber />
         <input type="number" #bottomNumber />
@@ -78,4 +83,5 @@ export class EmbeddedSortableComponent {
     add($event: any){
       this.measures.push($event.dragData);
     }
+
 }
