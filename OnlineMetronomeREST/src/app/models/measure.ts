@@ -1,3 +1,5 @@
+import { environment } from '../../environments/environment';
+
 export class Measure {
     top: number;
     bottom: number;
@@ -46,8 +48,8 @@ export class Measure {
     }
 
     playSound(beat: number): void {
-        var downBeat = new Audio('../assets/sounds/downClave.wav');
-        var otherBeat = new Audio('../assets/sounds/regularClave1.wav');
+        var downBeat = new Audio(environment.downBeat);
+        var otherBeat = new Audio(environment.otherBeat);
         if (beat == 1){
             downBeat.play();
         } else {
@@ -58,3 +60,5 @@ export class Measure {
     
 
 }
+
+

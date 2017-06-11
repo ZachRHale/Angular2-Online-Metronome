@@ -15,14 +15,14 @@ namespace OnlineMetronomeREST.Controllers
 
         public IActionResult About()
         {
-            ViewData["Message"] = "Your butt description page.";
+            ViewData["Message"] = "This is about.";
 
             return View();
         }
 
-        public IActionResult Contact()
+        public IActionResult Metronome()
         {
-            ViewData["Message"] = "Your contact page.";
+            ViewData["Message"] = "An Angular4 metronome";
 
             return View();
         }

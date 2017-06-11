@@ -53,15 +53,17 @@ namespace OnlineMetronomeREST
             {
                 app.UseDeveloperExceptionPage();
                 app.UseBrowserLink();
+
+				app.UseCors(builder => builder
+                .WithOrigins("http://localhost:4200")
+                            .AllowAnyHeader());
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
             }
 
-            app.UseCors(builder => builder
-                        .WithOrigins("http://localhost:4200")
-                        .AllowAnyHeader());
+
             
             app.UseStaticFiles();
 

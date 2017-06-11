@@ -1,15 +1,15 @@
 .idea
-node_modules
-jspm_packages
-npm-debug.*
-link-checker-results.txt
-app/**/*.js
-*.js.map
-e2e/**/*.js
-e2e/**/*.js.map
-_test-output
-_temp
-dist
+OnlineMetronomeREST/node_modules
+OnlineMetronomeREST/jspm_packages
+OnlineMetronomeREST/npm-debug.*
+OnlineMetronomeREST/link-checker-results.txt
+OnlineMetronomeREST/app/**/*.js
+OnlineMetronomeREST/*.js.map
+OnlineMetronomeREST/e2e/**/*.js
+OnlineMetronomeREST/e2e/**/*.js.map
+OnlineMetronomeREST/_test-output
+OnlineMetronomeREST/_temp
+OnlineMetronomeREST/wwwroot/dist
 
 # Autosave files
 *~

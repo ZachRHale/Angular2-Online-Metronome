@@ -1,3 +1,5 @@
 export const environment = {
-  production: true
+  production: true,
+  downBeat: "../dist/assets/sounds/downClave.wav",
+  otherBeat: "../dist/assets/sounds/regularClave1.wav"
 };

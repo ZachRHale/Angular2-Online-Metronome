@@ -31,7 +31,7 @@ import { MeasureService } from '../services/measures.service';
       </div>
       <div class="col-md-8">
       <div class="form-group load-measures">
-        <button class="btn btn-default btn-lg" (click)="loadMeasures(HTTPAddress.value)">Load Measures</button>{{ measure | json }}
+        <button class="btn btn-default btn-lg" (click)="loadMeasures(HTTPAddress.value)">Load Measures</button>
         <input class="form-control input-lg" #HTTPAddress />
       </div>
         <div class="panel panel-info">
@@ -64,7 +64,7 @@ export class EmbeddedSortableComponent {
       //Get all of the measures
       this.measureService.getMeasures(user).subscribe(
         measures => {
-          this.measures = measures.map(measure => new Measure(measure.top, measure.bottom))
+          this.measures = measures.map(measure => new Measure(measure.top, measure.bottom));
         },
         err => {
           console.log(err);

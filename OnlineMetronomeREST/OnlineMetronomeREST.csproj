@@ -19,4 +19,7 @@
     <Folder Include="Controllers\api\" />
     <Folder Include="Models\" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Remove="wwwroot\Views\Home\Contact.cshtml" />
+  </ItemGroup>
 </Project>
