@@ -13,7 +13,7 @@
         "favicon.ico"
       ],
 
-      "index":"../Views/Home/Contact.cshtml",
+      "index":"../Views/Home/Metronome.cshtml",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",
