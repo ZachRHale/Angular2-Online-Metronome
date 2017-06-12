@@ -13,7 +13,7 @@ export class MeasureService {
      // Resolve HTTP using the constructor
      constructor (private http: Http) {}
      // private instance variable to hold base url
-     private testMeasures = 'http://localhost:65111/Measures/'; 
+     private testMeasures = 'http://localhost:65111/api/Measures/'; 
 
 
      getMeasures(user: String): Observable<Measure[]> {
