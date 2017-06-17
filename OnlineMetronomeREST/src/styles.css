@@ -33,3 +33,7 @@ body {
   display:inline-block;
   margin: 5px 0px;
 }
+
+#isPlaying {
+  background-color: red;
+}

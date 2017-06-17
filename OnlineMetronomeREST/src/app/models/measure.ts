@@ -5,6 +5,7 @@ export class Measure {
     bottom: number;
     beats: Array<number> = [];
     tempo: number;
+    isPlaying: string;
 
     constructor(top:number, bottom:number ) {
         this.top = top;

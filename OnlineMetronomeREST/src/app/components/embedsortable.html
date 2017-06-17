@@ -33,7 +33,7 @@
             <div class="panel-body" dnd-droppable (onDropSuccess)="add($event)" [dropZones]="['boxers-zone']" >
                 <div dnd-sortable-container [sortableData]="measures">
                     <div class="list-group">
-                        <div *ngFor="let item of measures; let i = index" dnd-sortable [sortableIndex]="i" class="list-group-item">{{item.top}} / {{item.bottom}}</div>
+                        <div id ="{{measure.isPlaying}}" *ngFor="let measure of measures; let i = index" dnd-sortable [sortableIndex]="i" class="list-group-item">{{measure.top}} / {{measure.bottom}}</div>
                     </div>
                 </div>
             </div>

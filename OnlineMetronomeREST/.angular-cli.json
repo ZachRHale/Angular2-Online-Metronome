@@ -14,7 +14,7 @@
       ],
 
       "index":"../Views/Home/Metronome.cshtml",
-
+      "index":"index.html",
       "main": "main.ts",
       "polyfills": "polyfills.ts",
       "test": "test.ts",

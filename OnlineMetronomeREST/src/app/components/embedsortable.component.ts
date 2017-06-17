@@ -41,15 +41,19 @@ export class EmbeddedSortableComponent {
 
     playMeasureList(start: number): void {
 
+      this.measures[start].isPlaying = "isPlaying";
       this.measures[start].play(start).then(response =>
       {
         if(response > (this.measures.length - 1))
-        {
+        { 
+          this.measures[start].isPlaying = "";
           return 1;
         } else
         {
           this.playMeasureList(response);
         }
+        this.measures[start].isPlaying = "";
+
       });
       
     }

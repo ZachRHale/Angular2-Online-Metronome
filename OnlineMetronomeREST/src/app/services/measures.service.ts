@@ -3,6 +3,7 @@ import { Injectable }     from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Measure }           from '../models/measure';
 import { Observable } from 'rxjs/Rx';
+import { environment } from '../../environments/environment';
 
 // Import RxJs required methods
 import 'rxjs/add/operator/map';
@@ -10,11 +11,18 @@ import 'rxjs/add/operator/catch';
 
 @Injectable()
 export class MeasureService {
-     // Resolve HTTP using the constructor
-     constructor (private http: Http) {}
-     // private instance variable to hold base url
-     private testMeasures = '/api/Measures/'; 
+    private testMeasures: string;
+    private isProduction: boolean = environment.production;
 
+     // Resolve HTTP using the constructor
+     constructor (private http: Http) {
+        // private instance variable to hold base url
+        if (this.isProduction){
+            this.testMeasures = '/api/Measures/';
+        } else {
+            this.testMeasures = 'http://localhost:5000/api/Measures';
+        }
+     }
 
      getMeasures(user: String): Observable<Measure[]> {
     
