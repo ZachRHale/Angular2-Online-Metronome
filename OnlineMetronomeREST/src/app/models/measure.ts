@@ -18,25 +18,34 @@ export class Measure {
 
     }
 
-    play(input: number): Promise<number> {
+    play(measureNumber: number, audioContext: AudioContext, timeworker: Worker,downBeat: AudioBuffer, otherBeat: AudioBuffer): Promise<number> {
 
         var counter = 1;
         var beats = this.beats.length;
         var tempo = this.tempo;
         var bottom = this.bottom;
         var playSound = this.playSound;
+        var nextNoteTime = 0;
+
+        this.beats.forEach(element => {
+            playSound(audioContext.currentTime + nextNoteTime, downBeat, audioContext);
+            var beatsPerSecond = 60.0 / tempo;
+            nextNoteTime += (beatsPerSecond * 4)/bottom
+            console.log("hey!" + nextNoteTime + "--" + audioContext.currentTime);
+        });
+
 
         return new Promise((resolve) => {
 
         var looper = function(){  
             if (counter < (beats + 1)) {
                 console.log(counter);
-                playSound(counter);
+                //playSound(counter);
                 counter = counter + 1;
             } else {
                 console.log('Loop end');
                 //Make this point to the next measure in line
-                resolve(input + 1);
+                resolve(measureNumber + 1);
                 return 1;
                 
             }   
@@ -48,15 +57,12 @@ export class Measure {
      });
     }
 
-    playSound(beat: number): void {
-        var downBeat = new Audio(environment.downBeat);
-        var otherBeat = new Audio(environment.otherBeat);
-        if (beat == 1){
-            downBeat.play();
-        } else {
-            otherBeat.play();
-        }
-        
+    playSound(time: number, buffer: AudioBuffer, context: AudioContext): void {
+        var source = context.createBufferSource();
+        source.buffer = buffer;
+
+        source.connect(context.destination);
+        source.start(time);
     }
     
 

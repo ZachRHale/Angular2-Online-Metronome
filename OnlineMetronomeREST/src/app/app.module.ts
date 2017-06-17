@@ -6,14 +6,15 @@ import { FormsModule }   from '@angular/forms';
 
 import { MeasureService } from './services/measures.service';
 
-import { EmbeddedSortableComponent }  from './components/embedsortable.component';
+import { MetronomeComponent }  from './components/metronome.component';
+import { AppComponent } from './components/app.component';
 
 import { DndModule } from 'ng2-dnd';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpModule, JsonpModule, DndModule.forRoot() ],
-  declarations: [ EmbeddedSortableComponent ],
+  declarations: [ AppComponent, MetronomeComponent ],
   providers: [ MeasureService ],
-  bootstrap:    [ EmbeddedSortableComponent ]
+  bootstrap:    [ AppComponent ]
 })
 export class AppModule { }
