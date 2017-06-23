@@ -1,4 +1,4 @@
-
+import { globalVars } from '../globalVars';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Measure } from '../models/measure';
 import { MeasureService } from '../services/measures.service';
@@ -14,12 +14,14 @@ import { environment } from '../../environments/environment';
 
 
 export class MetronomeComponent implements OnInit {
-    constructor(private measureService: MeasureService) {}
+    constructor(private measureService: MeasureService, private globalVars: globalVars) {}
 
     dragOperation: boolean = true;
-    listMeasures:Array<Measure> = [new Measure(2,4),new Measure(4,4)];
-    measures: Array<Measure> = [new Measure(2,4), new Measure(3,16)];
+
+    listMeasures:Array<Measure> = [new Measure(2,4,this.globalVars),new Measure(4,4, this.globalVars)];
+    measures: Array<Measure> = [new Measure(2,4, this.globalVars, [0.5, 0.5, 1]), new Measure(3,16, this.globalVars, [2, 1])];
     
+
     audioContext: AudioContext;
     timerWorker: Worker;
     lookahead: number = 25;
@@ -49,6 +51,9 @@ export class MetronomeComponent implements OnInit {
         this.timerWorker.postMessage({"interval":this.lookahead})
     }
 
+    setTempo(tempo: number){
+      this.globalVars.setTempo(tempo);
+    }
 
     loadSound(filePath: string, context: AudioContext): Promise<AudioBuffer> {
       var request = new XMLHttpRequest();
@@ -63,17 +68,15 @@ export class MetronomeComponent implements OnInit {
           context.decodeAudioData(request.response, function(buffer) {
             resolve(buffer);
           }, function(e){ console.log("Error with decoding audio data"); });
-        }
-    
-     });
-     
+        }  
+     });     
     }
 
     loadMeasures(user: string) {
       //Get all of the measures
       this.measureService.getMeasures(user).subscribe(
         measures => {
-          this.measures = measures.map(measure => new Measure(measure.top, measure.bottom));
+          this.measures = measures.map(measure => new Measure(measure.top, measure.bottom, this.globalVars));
         },
         err => {
           console.log(err);
@@ -94,8 +97,7 @@ export class MetronomeComponent implements OnInit {
     }
 
     addMeasure(top:number, bottom:number): void {
-      this.listMeasures.push(new Measure(Number(top), Number(bottom)));
-
+      this.listMeasures.push(new Measure(Number(top), Number(bottom), this.globalVars));
     }
 
     playMeasureList(measureNumber: number, audioContext: AudioContext, timeworker: Worker, downBeat: AudioBuffer, otherBeat: AudioBuffer): void {
@@ -104,7 +106,7 @@ export class MetronomeComponent implements OnInit {
       this.measures[measureNumber].isPlaying = "isPlaying";
 
       //Pass down the AudioContext and Worker to the measure list
-      this.measures[measureNumber].play(measureNumber, audioContext, timeworker, downBeat, otherBeat).then(response =>
+      this.measures[measureNumber].play(measureNumber, audioContext, timeworker, downBeat, otherBeat, this.globalVars).then(response =>
       {
         if(response > (this.measures.length - 1))
         { 

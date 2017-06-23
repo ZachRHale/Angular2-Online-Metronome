@@ -10,22 +10,41 @@ namespace OnlineMetronomeREST.DataAccess
     {
         public Piece GetPiece(int id) 
         {
-            string connStr = "server=localhost;user=root;password=root;database=onlinemetronome;SSLmode=none";
+			string connStr = "server=localhost;user=root;password=root;database=onlinemetronome;SSLmode=none";
 			MySqlConnection conn = new MySqlConnection(connStr);
+
+			Piece thePiece = new Piece(0, "","");
+
+			
 			try
 			{
 				Console.WriteLine("Connecting to MySQL...");
 				conn.Open();
-				// Perform database operations
+
+                string sql = String.Format("SELECT * FROM Pieces WHERE PieceID = {0}", id);
+				MySqlCommand cmd = new MySqlCommand(sql, conn);
+				MySqlDataReader rdr = cmd.ExecuteReader();
+
+				while (rdr.Read())
+				{
+					thePiece.PieceID = Int32.Parse(rdr[0].ToString());
+					thePiece.PieceName = rdr[1].ToString();
+					thePiece.PieceComposer = rdr[2].ToString();
+                    
+				}
+				rdr.Close();
 			}
 			catch (Exception ex)
 			{
 				Console.WriteLine(ex.ToString());
+				
 			}
-			conn.Close();
-            Console.WriteLine("Done.");
 
-            return new Piece(1, "WillyBob", "JimBob");
+			conn.Close();
+			Console.WriteLine("Done.");
+
+
+            return thePiece;
             
         }
 

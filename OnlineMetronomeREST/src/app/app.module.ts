@@ -5,6 +5,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule }   from '@angular/forms';
 
 import { MeasureService } from './services/measures.service';
+import { globalVars } from './globalVars';
 
 import { MetronomeComponent }  from './components/metronome.component';
 import { AppComponent } from './components/app.component';
@@ -14,7 +15,7 @@ import { DndModule } from 'ng2-dnd';
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpModule, JsonpModule, DndModule.forRoot() ],
   declarations: [ AppComponent, MetronomeComponent ],
-  providers: [ MeasureService ],
+  providers: [ MeasureService, globalVars ],
   bootstrap:    [ AppComponent ]
 })
 export class AppModule { }

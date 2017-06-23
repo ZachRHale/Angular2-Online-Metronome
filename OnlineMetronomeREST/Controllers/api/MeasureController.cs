@@ -8,18 +8,27 @@ using OnlineMetronomeREST.DataAccess;
 
 namespace OnlineMetronomeREST.Controllers.api
 {
-    [Route("api/[controller]")]
+    [Route("api/Measures")]
     public class MeasuresController : Controller
     {
 		public Piece thePiece;
 		public PieceData PieceDL = new PieceData();
 		public List<Measure> theMeasures;
+		public Array output;
 
+		[HttpGet]
 		public JsonResult Index()
 		{
-			thePiece = PieceDL.GetPiece(1);
+			thePiece = PieceDL.GetPiece(2);
 			theMeasures = PieceDL.GetMeasures(thePiece);
-            return Json(theMeasures);
+            return Json(thePiece);
+		}
+
+		[HttpGet("{id}")]
+		public JsonResult Index(int id){
+			thePiece = PieceDL.GetPiece(id);
+			theMeasures = PieceDL.GetMeasures(thePiece);
+			return Json(theMeasures);
 		}
     }
 }

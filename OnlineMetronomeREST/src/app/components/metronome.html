@@ -2,6 +2,9 @@
 <div class="row">        
     <button class="btn btn-default" (click)="startPlaying(0)">Play All Measures</button>
     <button class="btn btn-default" (click)="printStuff()">Print the list</button>
+    <div style = "text-align:left" id="tempoBox">Tempo:{{tempo.value}} BPM 
+        <input #tempo type="range" min="30.0" max="160.0" step="1" value="80" style="height: 20px; width: 200px" (mousemove)="setTempo(tempo.value)">
+    </div>
 </div>
 <div class="row">
     <div class="col-md-4">

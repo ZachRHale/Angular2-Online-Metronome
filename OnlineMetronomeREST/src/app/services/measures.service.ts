@@ -14,13 +14,14 @@ export class MeasureService {
     private testMeasures: string;
     private isProduction: boolean = environment.production;
 
+
      // Resolve HTTP using the constructor
      constructor (private http: Http) {
-        // private instance variable to hold base url
+        // private instance variable to hold base url for api
         if (this.isProduction){
             this.testMeasures = '/api/Measures/';
         } else {
-            this.testMeasures = 'http://localhost:5000/api/Measures';
+            this.testMeasures = 'http://localhost:5000/api/Measures/';
         }
      }
 
