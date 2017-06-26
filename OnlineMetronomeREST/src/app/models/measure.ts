@@ -8,11 +8,12 @@ export class Measure {
     tempo: number;
     isPlaying: string;
     beatsPerSecond: number;
+    lookahead: number = environment.lookahead;
+    scheduleAhead: number = 0.5;
 
     constructor(top:number, bottom:number, private globalVars: globalVars, beats?:Array<number>) {
         this.top = top;
         this.bottom = bottom;
-        globalVars.globalTempo.subscribe(value => {this.tempo = value; this.beatsPerSecond = 60.0 / value ;console.log(value)});
 
         if (beats == undefined)
             for (var _i = 1; _i < (this.top + 1); _i++)
@@ -22,48 +23,65 @@ export class Measure {
 
         if (top == 5 && bottom == 8)
             this.beats = [3, 1, 1];
-
-
-
     }
 
     play(measureNumber: number, audioContext: AudioContext, timeworker: Worker,downBeat: AudioBuffer, otherBeat: AudioBuffer, _globalVars: globalVars): Promise<number> {
 
         var counter = 0;
-        var beats = this.beats.length;
+        var beats = this.beats;
         var bottom = this.bottom;
         var playSound = this.playSound;
         var nextNoteTime = 0;
+        var lookahead = this.lookahead;
+        var beatsPerSecond = this.beatsPerSecond;
+        var scheduleAhead = this.scheduleAhead;
+        _globalVars.globalTempo.subscribe(value => {beatsPerSecond = 60.0 / value;console.log(value)});
 
         return new Promise((resolve) => {
 
             timeworker.onmessage = function(e) {
+
                 if (e.data == "tick"){
-                    
+                    while (nextNoteTime < audioContext.currentTime + 0.1) {
+                        if (counter == 0){
+                            console.log(counter);
+                            playSound(audioContext.currentTime + nextNoteTime, downBeat, audioContext, ((beatsPerSecond * 4.0/ bottom) * beats[counter]));
+                        } else if (counter == beats.length - 1) {
+                            var time = ((beatsPerSecond * 4.0/ bottom) * beats[counter])
+                            console.log(counter);
+                            var resolveSound = playSound(audioContext.currentTime + nextNoteTime, otherBeat, audioContext, time);
+                            resolveSound.onended = function() {
+                                setTimeout(function(){ resolve(measureNumber + 1) }, (time - resolveSound.buffer.duration) * 1000)
+                            }
+                        } else if (counter < beats.length){
+                            console.log(counter);
+                            playSound(audioContext.currentTime + nextNoteTime, otherBeat, audioContext, ((beatsPerSecond * 4.0/ bottom) * beats[counter]));       
+                        }
+
+                        if (counter >= beats.length){
+                            nextNoteTime += ((beatsPerSecond * 4.0/ bottom))
+                            counter++
+                        } else {
+                            nextNoteTime += ((beatsPerSecond * 4.0/ bottom) * beats[counter])
+                            counter++
+                        }
+                    }
                 }
                 else 
                     console.log("message: " + e.data);
-            }
-            
-            this.beats.forEach((element, index) => {
-                if (index == 0)
-                    playSound(audioContext.currentTime + nextNoteTime, downBeat, audioContext);
-                else 
-                    playSound(audioContext.currentTime + nextNoteTime, otherBeat, audioContext);
-
-                nextNoteTime += ((this.beatsPerSecond * 4)/bottom) * element
-            }); 
-            //setTimeout(function(){resolve(measureNumber + 1)}, nextNoteTime * 1000)
+            }      
         });     
     }
 
+  
 
-    playSound(time: number, buffer: AudioBuffer, context: AudioContext): void {
+    playSound(time: number, buffer: AudioBuffer, context: AudioContext, duration:number): AudioBufferSourceNode {
         var source = context.createBufferSource();
         source.buffer = buffer;
-
         source.connect(context.destination);
-        source.start(time);
+        console.log(time, duration)
+        source.start(time, 0, duration);
+        return source;
     }
 
 

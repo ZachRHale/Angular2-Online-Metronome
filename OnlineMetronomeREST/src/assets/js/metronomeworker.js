@@ -1,7 +1,7 @@
 //This somehow needs to be moved to the wwwroot/js folder whenever this is built
 
 var timerID=null;
-var interval=100;
+var interval=20;
 
 self.onmessage=function(e){
 	if (e.data=="start") {

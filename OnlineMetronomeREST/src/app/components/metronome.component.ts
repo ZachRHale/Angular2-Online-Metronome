@@ -14,17 +14,16 @@ import { environment } from '../../environments/environment';
 
 
 export class MetronomeComponent implements OnInit {
-    constructor(private measureService: MeasureService, private globalVars: globalVars) {}
+    constructor(private measureService: MeasureService, public globalVars: globalVars) {}
 
     dragOperation: boolean = true;
 
     listMeasures:Array<Measure> = [new Measure(2,4,this.globalVars),new Measure(4,4, this.globalVars)];
-    measures: Array<Measure> = [new Measure(2,4, this.globalVars, [0.5, 0.5, 1]), new Measure(3,16, this.globalVars, [2, 1])];
+    measures: Array<Measure> = [new Measure(4,4, this.globalVars), new Measure(3,4, this.globalVars,[0.5, 0.5, 1, 1]), new Measure(6,16, this.globalVars)];
     
 
     audioContext: AudioContext;
     timerWorker: Worker;
-    lookahead: number = 25;
     isPlaying: boolean = false;
     downBeat: AudioBuffer;
     otherBeat: AudioBuffer;
@@ -38,17 +37,6 @@ export class MetronomeComponent implements OnInit {
 
       this.timerWorker = new Worker(environment.metronomeworker);
 
-      this.timerWorker.onmessage = function(e) {
-        if (e.data == "tick") {
-            console.log("tick!");
-            //scheduler();
-        }
-        else
-            if(!environment.production){
-              console.log("message: " + e.data);
-            } 
-        }
-        this.timerWorker.postMessage({"interval":this.lookahead})
     }
 
     setTempo(tempo: number){
@@ -123,6 +111,7 @@ export class MetronomeComponent implements OnInit {
     }
 
     startPlaying(measureNumber: number){
+      this.timerWorker.postMessage("start");
       this.playMeasureList(measureNumber, this.audioContext, this.timerWorker, this.downBeat, this.otherBeat);
     }
 

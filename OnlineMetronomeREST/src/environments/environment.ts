@@ -7,5 +7,6 @@ export const environment = {
   production: false,
   downBeat: "../assets/sounds/downClave.wav",
   otherBeat: "../assets/sounds/regularClave1.wav",
-  metronomeworker: "../assets/js/metronomeworker.js"
+  metronomeworker: "../assets/js/metronomeworker.js",
+  lookahead: 25
 };
