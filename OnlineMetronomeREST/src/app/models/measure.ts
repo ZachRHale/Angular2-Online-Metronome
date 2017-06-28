@@ -31,40 +31,44 @@ export class Measure {
         var beats = this.beats;
         var bottom = this.bottom;
         var playSound = this.playSound;
-        var nextNoteTime = 0;
+        var nextNoteTime = audioContext.currentTime;
         var lookahead = this.lookahead;
         var beatsPerSecond = this.beatsPerSecond;
         var scheduleAhead = this.scheduleAhead;
-        _globalVars.globalTempo.subscribe(value => {beatsPerSecond = 60.0 / value;console.log(value)});
+        
 
         return new Promise((resolve) => {
 
             timeworker.onmessage = function(e) {
-
+                _globalVars.globalTempo.subscribe(value => {beatsPerSecond = 60.0 / value;});
                 if (e.data == "tick"){
-                    while (nextNoteTime < audioContext.currentTime + 0.1) {
+                    if (nextNoteTime <= audioContext.currentTime + 0.1) {
                         if (counter == 0){
-                            console.log(counter);
-                            playSound(audioContext.currentTime + nextNoteTime, downBeat, audioContext, ((beatsPerSecond * 4.0/ bottom) * beats[counter]));
+
+                            playSound(nextNoteTime, downBeat, audioContext, ((beatsPerSecond * 4.0/ bottom) * beats[counter]));
+                            nextNoteTime += ((beatsPerSecond * 4.0/ bottom) * beats[counter])
+                            console.log(beatsPerSecond)
                         } else if (counter == beats.length - 1) {
                             var time = ((beatsPerSecond * 4.0/ bottom) * beats[counter])
-                            console.log(counter);
-                            var resolveSound = playSound(audioContext.currentTime + nextNoteTime, otherBeat, audioContext, time);
+
+                            var resolveSound = playSound(nextNoteTime, otherBeat, audioContext, time);
                             resolveSound.onended = function() {
                                 setTimeout(function(){ resolve(measureNumber + 1) }, (time - resolveSound.buffer.duration) * 1000)
                             }
                         } else if (counter < beats.length){
-                            console.log(counter);
-                            playSound(audioContext.currentTime + nextNoteTime, otherBeat, audioContext, ((beatsPerSecond * 4.0/ bottom) * beats[counter]));       
+                            playSound(nextNoteTime, otherBeat, audioContext, ((beatsPerSecond * 4.0/ bottom) * beats[counter]));   
+                            nextNoteTime += ((beatsPerSecond * 4.0/ bottom) * beats[counter])   
+                            console.log(beatsPerSecond)
                         }
 
                         if (counter >= beats.length){
-                            nextNoteTime += ((beatsPerSecond * 4.0/ bottom))
                             counter++
                         } else {
-                            nextNoteTime += ((beatsPerSecond * 4.0/ bottom) * beats[counter])
+                            
                             counter++
                         }
+
+                        
                     }
                 }
                 else 
@@ -79,7 +83,6 @@ export class Measure {
         var source = context.createBufferSource();
         source.buffer = buffer;
         source.connect(context.destination);
-        console.log(time, duration)
         source.start(time, 0, duration);
         return source;
     }

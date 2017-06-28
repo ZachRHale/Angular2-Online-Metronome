@@ -7,7 +7,7 @@ import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 @Injectable() 
 export class globalVars {
 // use this property for property binding
-  public globalTempo:BehaviorSubject<number> = new BehaviorSubject<number>(60);
+  public globalTempo:BehaviorSubject<number> = new BehaviorSubject<number>(95);
 
   setTempo(tempo){
    this.globalTempo.next(tempo);

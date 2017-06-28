@@ -27,6 +27,9 @@ export class MetronomeComponent implements OnInit {
     isPlaying: boolean = false;
     downBeat: AudioBuffer;
     otherBeat: AudioBuffer;
+    tempo:number;
+
+
 
 
     ngOnInit(){
@@ -36,11 +39,27 @@ export class MetronomeComponent implements OnInit {
       this.loadSound(environment.otherBeat, this.audioContext).then(response => {this.otherBeat = response ;})
 
       this.timerWorker = new Worker(environment.metronomeworker);
+      this.globalVars.globalTempo.subscribe(value => this.tempo = value)
 
     }
 
     setTempo(tempo: number){
       this.globalVars.setTempo(tempo);
+    }
+
+    goingDown(endTempo: number, speed:number){
+      var timerID;
+      var globalVars = this.globalVars
+      var tempo = this.tempo;
+
+      timerID = setInterval(function(){
+        globalVars.setTempo(tempo - 0.5)
+        tempo = tempo - 0.5
+        if (tempo <= endTempo){
+          clearInterval(timerID);
+          return 1;
+        }
+      },speed)
     }
 
     loadSound(filePath: string, context: AudioContext): Promise<AudioBuffer> {

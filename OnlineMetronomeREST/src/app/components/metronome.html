@@ -2,8 +2,9 @@
 <div class="row">        
     <button class="btn btn-default" (click)="startPlaying(0)">Play All Measures</button>
     <button class="btn btn-default" (click)="printStuff()">Print the list</button>
-    <div style = "text-align:left" id="tempoBox">Tempo:{{tempo.value}} BPM 
-        <input #tempo type="range" min="30.0" max="160.0" step="1" value="80" style="height: 20px; width: 200px" (mousemove)="globalVars.setTempo(tempo.value)">
+    <button class="btn btn-default" (click)="goingDown(50, 25)">Go down to 50</button>
+    <div style = "text-align:left" id="tempoBox">Tempo:{{tempo}} BPM 
+        <input [(ngModel)]="tempo" type="range" min="30.0" max="160.0" step="1" style="height: 20px; width: 200px" (mousemove)="globalVars.setTempo(tempo)">
     </div>
 </div>
 <div class="row">
@@ -36,7 +37,7 @@
             <div class="panel-body" dnd-droppable (onDropSuccess)="add($event)" [dropZones]="['boxers-zone']" >
                 <div dnd-sortable-container [sortableData]="measures">
                     <div class="list-group">
-                        <div id ="{{measure.isPlaying}}" *ngFor="let measure of measures; let i = index" dnd-sortable [sortableIndex]="i" class="list-group-item">{{measure.top}} / {{measure.bottom}}</div>
+                        <div id ="{{measure.isPlaying}}" *ngFor="let measure of measures; let i = index" appDbclick dnd-sortable [sortableIndex]="i" class="list-group-item">{{measure.top}} / {{measure.bottom}}</div>
                     </div>
                 </div>
             </div>
