@@ -11,11 +11,10 @@ import { MetronomeComponent }  from './components/metronome.component';
 import { AppComponent } from './components/app.component';
 
 import { DndModule } from 'ng2-dnd';
-import { DbclickDirective } from './dbclick.directive';
 
 @NgModule({
   imports:      [ BrowserModule, FormsModule, HttpModule, JsonpModule, DndModule.forRoot() ],
-  declarations: [ AppComponent, MetronomeComponent, DbclickDirective ],
+  declarations: [ AppComponent, MetronomeComponent ],
   providers: [ MeasureService, globalVars ],
   bootstrap:    [ AppComponent ]
 })
