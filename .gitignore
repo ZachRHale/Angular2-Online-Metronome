@@ -10,6 +10,7 @@ OnlineMetronomeREST/e2e/**/*.js.map
 OnlineMetronomeREST/_test-output
 OnlineMetronomeREST/_temp
 OnlineMetronomeREST/wwwroot/dist
+OnlineMetronomeREST/appsettings*.json
 
 
 # Autosave files

@@ -9,6 +9,9 @@
             "request": "launch",
             "name": "Launch Program",
             "program": "${file}",
+            "env": {
+                "ASPNETCORE_ENVIRONMENT": "Development"
+            },
             "outFiles": []
         },
         {
@@ -19,5 +22,6 @@
             "port": 5858,
             "outFiles": []
         }
+        
     ]
 }

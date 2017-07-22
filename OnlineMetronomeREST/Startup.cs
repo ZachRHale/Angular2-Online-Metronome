@@ -6,9 +6,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging.Abstractions;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json.Converters;
 using Microsoft.AspNetCore.Cors;
+using OnlineMetronomeREST.DataAccess;
+using Microsoft.EntityFrameworkCore;
 
 namespace OnlineMetronomeREST
 {
@@ -26,9 +29,11 @@ namespace OnlineMetronomeREST
 
         public IConfigurationRoot Configuration { get; }
 
+        
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+
             // Add framework services.
             services.AddMvc()
             .AddJsonOptions(options =>
@@ -41,13 +46,15 @@ namespace OnlineMetronomeREST
 
             services.AddCors();
 
+            var connection = Configuration.GetConnectionString("MySQLServer");
+            services.AddDbContext<PieceMySqlContext>(options => options.UseMySql(connection));
+
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddConsole(Configuration.GetSection("Logging"));
-            loggerFactory.AddDebug();
 
             if (env.IsDevelopment())
             {
@@ -60,7 +67,13 @@ namespace OnlineMetronomeREST
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+
+				app.UseCors(builder => builder
+                .WithOrigins("http://localhost:4200")
+                            .AllowAnyHeader());
+                //app.UseExceptionHandler("/Home/Error");
             }
 
 

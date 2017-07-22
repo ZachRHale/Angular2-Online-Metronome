@@ -6,18 +6,13 @@ namespace OnlineMetronomeREST.Models
 {
     public class Measure
     {
-        public int PieceID { get; private set; }
-        public int Top { get; private set; }
-        public int Bottom { get; private set; }
-        public int Tempo { get; private set; }
+        public string PieceID { get;  set; }
+        public int TopNumber { get;  set; }
+        public int BottomNumber { get;  set; }
+        public int Tempo { get;  set; }
 
-        public Measure(Piece piece, int top, int bottom, int tempo) 
-        {
-            PieceID = piece.PieceID;
-            Top = top;
-            Bottom = bottom;
-            Tempo = tempo;
+        public int MeasureNumber {get;  set;}
 
-        }
+        public Measure() {}
     }
 }
