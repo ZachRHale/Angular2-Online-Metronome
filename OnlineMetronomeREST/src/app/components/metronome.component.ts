@@ -83,7 +83,7 @@ export class MetronomeComponent implements OnInit {
       //Get all of the measures
       this.measureService.getMeasures(user).subscribe(
         measures => {
-          this.measures = measures.map(measure => new Measure(measure.top, measure.bottom, this.globalVars));
+          this.measures = measures.map(measure => new Measure(measure.topNumber, measure.bottomNumber, this.globalVars));
         },
         err => {
           console.log(err);

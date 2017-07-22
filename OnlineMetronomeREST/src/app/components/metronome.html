@@ -20,7 +20,7 @@
             </div>
             <div class="panel-body" dnd-sortable-container [sortableData]="listMeasures" [dropZones]="['boxers-zone']">
                 <ul class="list-group" >
-                <li *ngFor="let item of listMeasures; let i = index" class="list-group-item" [dragEnabled]="true" [dragData]="item" dnd-sortable [sortableIndex]="i">{{item.top}} / {{item.bottom}}</li>           
+                <li *ngFor="let item of listMeasures; let i = index" class="list-group-item" [dragEnabled]="true" [dragData]="item" dnd-sortable [sortableIndex]="i">{{item.topNumber}} / {{item.bottomNumber}}</li>           
                 </ul>
             </div>
         </div>
@@ -37,7 +37,7 @@
             <div class="panel-body" dnd-droppable (onDropSuccess)="add($event)" [dropZones]="['boxers-zone']" >
                 <div dnd-sortable-container [sortableData]="measures">
                     <div class="list-group">
-                        <div id ="{{measure.isPlaying}}" *ngFor="let measure of measures; let i = index" appDbclick dnd-sortable [sortableIndex]="i" class="list-group-item">{{measure.top}} / {{measure.bottom}}</div>
+                        <div id ="{{measure.isPlaying}}" *ngFor="let measure of measures; let i = index" appDbclick dnd-sortable [sortableIndex]="i" class="list-group-item">{{measure.topNumber}} / {{measure.bottomNumber}}</div>
                     </div>
                 </div>
             </div>

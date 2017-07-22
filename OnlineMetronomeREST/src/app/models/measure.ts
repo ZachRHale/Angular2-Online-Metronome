@@ -2,8 +2,8 @@ import { environment } from '../../environments/environment';
 import { globalVars } from '../globalVars';
 
 export class Measure {
-    top: number;
-    bottom: number;
+    topNumber: number;
+    bottomNumber: number;
     beats: Array<number> = [];
     tempo: number;
     isPlaying: string;
@@ -12,11 +12,11 @@ export class Measure {
     scheduleAhead: number = 0.5;
 
     constructor(top:number, bottom:number, private globalVars: globalVars, beats?:Array<number>) {
-        this.top = top;
-        this.bottom = bottom;
+        this.topNumber = top;
+        this.bottomNumber = bottom;
 
         if (beats == undefined)
-            for (var _i = 1; _i < (this.top + 1); _i++)
+            for (var _i = 1; _i < (this.topNumber + 1); _i++)
                 this.beats.push(1)
         else 
             this.beats = beats
@@ -29,7 +29,7 @@ export class Measure {
 
         var counter = 0;
         var beats = this.beats;
-        var bottom = this.bottom;
+        var bottom = this.bottomNumber;
         var playSound = this.playSound;
         var nextNoteTime = audioContext.currentTime;
         var lookahead = this.lookahead;
