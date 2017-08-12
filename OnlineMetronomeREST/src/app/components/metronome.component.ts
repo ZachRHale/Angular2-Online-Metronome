@@ -1,6 +1,7 @@
 import { globalVars } from '../globalVars';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Measure } from '../models/measure';
+import { Piece } from '../models/piece';
 import { MeasureService } from '../services/measures.service';
 import { environment } from '../../environments/environment';
 
@@ -18,8 +19,9 @@ export class MetronomeComponent implements OnInit {
 
     dragOperation: boolean = true;
 
-    listMeasures:Array<Measure> = [new Measure(2,4,this.globalVars),new Measure(4,4, this.globalVars)];
     measures: Array<Measure> = [new Measure(4,4, this.globalVars), new Measure(3,4, this.globalVars,[0.5, 0.5, 1, 1]), new Measure(6,16, this.globalVars)];
+    thePiece = new Piece("testComposer", "testName", this.measures, "testUsername");
+    listMeasures:Array<Measure> = [new Measure(2,4,this.globalVars),new Measure(4,4, this.globalVars)];
     
 
     audioContext: AudioContext;
@@ -28,9 +30,6 @@ export class MetronomeComponent implements OnInit {
     downBeat: AudioBuffer;
     otherBeat: AudioBuffer;
     tempo:number;
-
-
-
 
     ngOnInit(){
       
@@ -82,8 +81,11 @@ export class MetronomeComponent implements OnInit {
     loadMeasures(user: string) {
       //Get all of the measures
       this.measureService.getMeasures(user).subscribe(
-        measures => {
-          this.measures = measures.map(measure => new Measure(measure.topNumber, measure.bottomNumber, this.globalVars));
+        thePiece => {
+          this.thePiece.pieceMeasures = thePiece.pieceMeasures.map(measure => new Measure(measure.topNumber, measure.bottomNumber, this.globalVars));
+          this.thePiece.pieceComposer = thePiece.pieceComposer;
+          this.thePiece.pieceName = thePiece.pieceName;
+          this.thePiece.userName = thePiece.userName;
         },
         err => {
           console.log(err);

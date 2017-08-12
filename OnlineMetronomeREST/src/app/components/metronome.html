@@ -1,4 +1,6 @@
 <h1>Angular 4 Javascript Metronome</h1>
+<h3>{{thePiece.pieceName}} by {{thePiece.pieceComposer}}</h3>
+<h4>created by {{thePiece.userName}}</h4>
 <div class="row">        
     <button class="btn btn-default" (click)="startPlaying(0)">Play All Measures</button>
     <button class="btn btn-default" (click)="printStuff()">Print the list</button>
@@ -37,7 +39,7 @@
             <div class="panel-body" dnd-droppable (onDropSuccess)="add($event)" [dropZones]="['boxers-zone']" >
                 <div dnd-sortable-container [sortableData]="measures">
                     <div class="list-group">
-                        <div id ="{{measure.isPlaying}}" *ngFor="let measure of measures; let i = index" appDbclick dnd-sortable [sortableIndex]="i" class="list-group-item">{{measure.topNumber}} / {{measure.bottomNumber}}</div>
+                        <div id ="{{measure.isPlaying}}" *ngFor="let measure of thePiece.pieceMeasures; let i = index" appDbclick dnd-sortable [sortableIndex]="i" class="list-group-item">{{measure.topNumber}} / {{measure.bottomNumber}}</div>
                     </div>
                 </div>
             </div>

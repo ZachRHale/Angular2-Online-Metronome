@@ -2,7 +2,7 @@ CREATE DATABASE onlinemetronome;
 
 USE onlinemetronome;
 
-IF (EXISTS (SELECT * 
+IF NOT EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'TheSchema' 
                  AND  TABLE_NAME = 'Users'))
@@ -16,7 +16,7 @@ CREATE TABLE Users (
  );
 END
 
-IF (EXISTS (SELECT * 
+IF NOT EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'TheSchema' 
                  AND  TABLE_NAME = 'Pieces'))
@@ -25,13 +25,13 @@ CREATE TABLE Pieces (
 	PieceID varchar(36) NOT NULL, 
     PieceName varchar(255) NOT NULL,
     PieceComposer varchar(255) NOT NULL,
-    PieceOwner int NOT NULL, 
+    PieceOwner varchar(36) NOT NULL, 
     PRIMARY KEY (PieceID),
     FOREIGN KEY (PieceOwner) REFERENCES Users(UserID)
 );
 END
 
-IF (EXISTS (SELECT * 
+IF NOT EXISTS (SELECT * 
                  FROM INFORMATION_SCHEMA.TABLES 
                  WHERE TABLE_SCHEMA = 'TheSchema' 
                  AND  TABLE_NAME = 'Measures'))

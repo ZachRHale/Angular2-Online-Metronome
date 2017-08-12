@@ -57,12 +57,13 @@ namespace OnlineMetronomeREST.Controllers.api
 		[HttpGet("{id}")]
 		public JsonResult Index(string id)
 		{
-			var measures = _context.Measures
+			var pieceDetails = _context.Pieces
 				.Where(b => b.PieceID == id)
-				.OrderBy(b => b.MeasureNumber)
+				.OrderBy(b => b.PieceName)
 				.ToList();
 
-			return Json(measures);
+			return Json(pieceDetails);
 		}
+
     }
 }

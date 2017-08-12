@@ -2,6 +2,7 @@
 import { Injectable }     from '@angular/core';
 import { Http, Response, Headers, RequestOptions } from '@angular/http';
 import { Measure }           from '../models/measure';
+import { Piece }           from '../models/piece';
 import { Observable } from 'rxjs/Rx';
 import { environment } from '../../environments/environment';
 
@@ -25,7 +26,7 @@ export class MeasureService {
         }
      }
 
-     getMeasures(user: String): Observable<Measure[]> {
+     getMeasures(user: String): Observable<Piece> {
     
     // ...using get request
          return this.http.get(this.testMeasures + user)

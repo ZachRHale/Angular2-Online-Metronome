@@ -72,9 +72,22 @@ namespace OnlineMetronomeREST.Controllers.api
 			var measures = _context.Measures
 				.Where(b => b.PieceID == id)
 				.OrderBy(b => b.MeasureNumber)
-				.ToList();
+				.ToArray();
 
-			return Json(measures);
+			var thePiece = _context.Pieces
+				.Where(b => b.PieceID == id)
+				.First();
+			
+			var theUser = _context.Users
+				.Where(b => b.UserID == thePiece.PieceOwner)
+				.First();
+
+			var pieceMeasures = from measure in measures select new {measure.MeasureNumber, measure.TopNumber, measure.BottomNumber};
+
+			var newArray = new {theUser.UserFirstName, theUser.UserLastName, theUser.UserName,thePiece.PieceComposer,thePiece.PieceName,pieceMeasures};
+
+
+			return Json(newArray);
 		}
     }
 }

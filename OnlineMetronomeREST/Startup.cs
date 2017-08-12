@@ -25,14 +25,16 @@ namespace OnlineMetronomeREST
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
                 .AddEnvironmentVariables();
             Configuration = builder.Build();
+
+            HostingEnvironment = env;
         }
 
         public IConfigurationRoot Configuration { get; }
-
-        
+        public IHostingEnvironment HostingEnvironment {get;}
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connection = "";
 
             // Add framework services.
             services.AddMvc()
@@ -45,9 +47,14 @@ namespace OnlineMetronomeREST
 	        });
 
             services.AddCors();
-
-            var connection = Configuration.GetConnectionString("MySQLServer");
-            services.AddDbContext<PieceMySqlContext>(options => options.UseMySql(connection));
+            
+            if(HostingEnvironment.IsProduction()) {
+                connection = Configuration.GetConnectionString("Azure");
+            } else if (HostingEnvironment.IsDevelopment()) {
+                connection = Configuration.GetConnectionString("Azure");
+            }
+            
+            services.AddDbContext<PieceMySqlContext>(options => options.UseSqlServer(connection));
 
         }
 
@@ -65,16 +72,7 @@ namespace OnlineMetronomeREST
                 .WithOrigins("http://localhost:4200")
                             .AllowAnyHeader());
             }
-            else
-            {
-                app.UseDeveloperExceptionPage();
-                app.UseBrowserLink();
-
-				app.UseCors(builder => builder
-                .WithOrigins("http://localhost:4200")
-                            .AllowAnyHeader());
-                //app.UseExceptionHandler("/Home/Error");
-            }
+    
 
 
             
