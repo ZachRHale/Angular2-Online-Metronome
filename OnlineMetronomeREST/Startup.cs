@@ -46,7 +46,8 @@ namespace OnlineMetronomeREST
 
             services.AddCors();
 
-            var connection = Configuration.GetConnectionString("MySQLServer");
+            //var connection = Configuration.GetConnectionString("MySQLServer");
+            var connection = "server=localhost;port=3306;database=onlinemetronome;user=root;password=root;";
             services.AddDbContext<PieceMySqlContext>(options => options.UseMySql(connection));
 
         }
@@ -84,7 +85,7 @@ namespace OnlineMetronomeREST
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
+                    template: "{controller=Home}/{action=Metronome}/{id?}");
             });
         }
     }

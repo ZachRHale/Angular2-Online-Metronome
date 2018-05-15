@@ -5,8 +5,8 @@
 
 export const environment = {
   production: false,
-  downBeat: "../assets/sounds/downClave.wav",
-  otherBeat: "../assets/sounds/regularClave1.wav",
-  metronomeworker: "../assets/js/metronomeworker.js",
+  downBeat: "../dist/assets/sounds/downClave.wav",
+  otherBeat: "../dist/assets/sounds/regularClave1.wav",
+  metronomeworker: "../dist/assets/js/metronomeworker.js",
   lookahead: 25
 };
